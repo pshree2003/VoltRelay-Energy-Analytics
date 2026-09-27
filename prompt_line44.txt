@@ -1,0 +1,125 @@
+<USER_REQUEST>
+Act as a Senior Data Analyst, Data Scientist, Analytics Engineer, Python Engineer, BI Analyst, and Hackathon Project Lead.
+
+I am participating in the Gradient Learnings Data Analytics Hackathon for the fictional company "VoltRelay Energy". I have provided the official Problem Statement (PS) and the dataset files. You MUST use the provided Problem Statement and datasets as the primary source of truth.
+
+Your task is to build the COMPLETE analytics project from scratch to final submission.
+
+IMPORTANT:
+- This is primarily a BUSINESS DATA ANALYTICS / BI project.
+- Do not turn it into a generic machine-learning project.
+- Do not invent findings, numbers, business problems, relationships, or dataset columns.
+- Do not assume causality from observational data.
+- Every important conclusion must be traceable to an actual calculation, visualization, statistical result, or documented dataset fact.
+- If the data does not support a conclusion, explicitly say so.
+- Preserve the original raw data.
+- Make the entire project reproducible and runnable in Google Colab.
+- Use Python/Pandas/NumPy/Matplotlib/Seaborn/Scikit-learn or other appropriate libraries only when justified.
+- Prefer efficient processing because swap_events contains approximately 3.9 million rows.
+- Avoid unnecessary machine-learning complexity.
+- Use professional business analytics practices throughout.
+
+==================================================
+1. BUSINESS CONTEXT
+==================================================
+
+VoltRelay Energy operates a battery-swapping network for 2W/3W gig and logistics riders across:
+
+- Bengaluru
+- Delhi NCR
+- Hyderabad
+- Pune
+- Mumbai
+- Jaipur
+
+The business has experienced:
+- Growth in completed swaps and revenue
+- Service failures increasing faster
+- New-rider retention declining
+- Per-swap profitability deteriorating
+
+Leadership wants evidence about the drivers of these problems before making the next budget decision.
+
+Your role is Data Analyst for Operations and Custome
+<truncated 23314 bytes>
+=================
+29. FINAL AUTHENTICITY / QUALITY PASS
+==================================================
+
+Perform a final human-quality review.
+
+Remove:
+- Generic AI-generated wording
+- Repetitive explanations
+- Unsupported claims
+- Artificially complex techniques
+- Excessive charts
+- Generic recommendations
+- Fake precision
+- Unnecessary jargon
+
+Make the final project:
+- Precise
+- Analytical
+- Business-focused
+- Evidence-driven
+- Professional
+- Concise
+- Defensible
+
+Every conclusion should be traceable back to:
+DATA → CALCULATION → VISUAL/STATISTICAL EVIDENCE → FINDING → BUSINESS IMPLICATION
+
+==================================================
+30. FINAL OUTPUTS
+==================================================
+
+At the end, produce:
+
+1. Complete project folder
+2. Google Colab notebook
+3. Cleaned/processed datasets where appropriate
+4. Python source files
+5. KPI tables
+6. Analysis tables
+7. Visualization files
+8. Final report
+9. Presentation outline
+10. README
+11. Data-quality report
+12. Join-validation report
+13. Anomaly report
+14. Evidence matrix
+15. Final recommendation table
+
+Also provide a FINAL SUMMARY containing:
+
+A. Dataset summary
+B. Data-quality issues discovered
+C. Cleaning decisions
+D. Six-question analytical findings
+E. Statistical findings
+F. Most important business insights
+G. Recommendations
+H. Limitations
+I. Files created
+J. How to run the project
+K. What remains to be manually reviewed before submission
+
+CRITICAL RULE:
+
+DO NOT fabricate the final findings before analyzing the actual dataset.
+
+First inspect and calculate.
+Then visualize.
+Then validate.
+Then interpret.
+Then recommend.
+
+If a finding is uncertain, explicitly label it as uncertain.
+
+Start by inspecting the provided Problem Statement and all available datasets, then build the project systematically from ingestion through final submission.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-09-27T16:43:02+05:30.
+</ADDITIONAL_METADATA>

@@ -1,0 +1,1244 @@
+<USER_REQUEST>
+Act as a Senior Data Analyst, Data Scientist, Analytics Engineer, Python Engineer, BI Analyst, and Hackathon Project Lead.
+
+I am participating in the Gradient Learnings Data Analytics Hackathon for the fictional company "VoltRelay Energy". I have provided the official Problem Statement (PS) and the dataset files. You MUST use the provided Problem Statement and datasets as the primary source of truth.
+
+Your task is to build the COMPLETE analytics project from scratch to final submission.
+
+IMPORTANT:
+- This is primarily a BUSINESS DATA ANALYTICS / BI project.
+- Do not turn it into a generic machine-learning project.
+- Do not invent findings, numbers, business problems, relationships, or dataset columns.
+- Do not assume causality from observational data.
+- Every important conclusion must be traceable to an actual calculation, visualization, statistical result, or documented dataset fact.
+- If the data does not support a conclusion, explicitly say so.
+- Preserve the original raw data.
+- Make the entire project reproducible and runnable in Google Colab.
+- Use Python/Pandas/NumPy/Matplotlib/Seaborn/Scikit-learn or other appropriate libraries only when justified.
+- Prefer efficient processing because swap_events contains approximately 3.9 million rows.
+- Avoid unnecessary machine-learning complexity.
+- Use professional business analytics practices throughout.
+
+==================================================
+1. BUSINESS CONTEXT
+==================================================
+
+VoltRelay Energy operates a battery-swapping network for 2W/3W gig and logistics riders across:
+
+- Bengaluru
+- Delhi NCR
+- Hyderabad
+- Pune
+- Mumbai
+- Jaipur
+
+The business has experienced:
+- Growth in completed swaps and revenue
+- Service failures increasing faster
+- New-rider retention declining
+- Per-swap profitability deteriorating
+
+Leadership wants evidence about the drivers of these problems before making the next budget decision.
+
+Your role is Data Analyst for Operations and Customer Experience.
+
+The objective is to determine:
+1. Network performance over time
+2. Drivers associated with service failures and customer experience
+3. Station/geographic differences
+4. Battery/equipment patterns
+5. Pricing and partner economics
+6. New-rider retention patterns
+7. Business priorities supported by evidence
+
+Do NOT claim that one factor causes another unless the analytical design genuinely supports causal inference.
+
+==================================================
+2. CORE BUSINESS QUESTIONS
+==================================================
+
+Answer ALL SIX official questions from the Problem Statement:
+
+Q1. NETWORK PERFORMANCE
+Analyze:
+- Completed swaps
+- Revenue
+- Failure rate
+- Contribution margin per swap
+- Trends over time
+- City differences
+- Vehicle-class differences
+- Major changes and divergences
+
+Q2. SERVICE FAILURES / CUSTOMER EXPERIENCE
+Analyze:
+- Queue wait
+- Failed attempts
+- Abandoned swaps
+- Station
+- Hour of day
+- Season/time period
+- Vehicle class
+- Charged-battery availability
+- Capacity/utilization
+- Outages
+- Connectivity/telemetry
+- Concentration of failures
+
+Determine whether failures are concentrated in particular operating conditions or locations.
+
+Q3. STATION / GEOGRAPHIC PATTERNS
+Analyze station performance using:
+- City
+- Zone
+- Location type
+- Host type
+- Commissioning date
+- Expansion wave
+- Charger generation
+- Capacity
+- Inventory targets
+- Outages
+- Battery turnaround
+- Complaints/support tickets
+
+Identify meaningful station-level patterns without creating arbitrary rankings.
+
+Q4. BATTERY / EQUIPMENT
+Analyze:
+- Battery supplier
+- Manufacturing lot
+- Pack type
+- Battery age
+- Initial SOH
+- Current SOH
+- SOC
+- Delivered range
+- Swap frequency
+- Energy delivered/recharged
+- BMS firmware
+- Retirement
+- Charger generation
+
+Investigate whether certain battery/equipment cohorts are associated with poorer outcomes.
+
+Q5. PRICING / PARTNER ECONOMICS
+Analyze:
+- Tariff codes
+- Standard pricing
+- Peak/off-peak pricing
+- Partner pricing
+- Promotions
+- Discounts
+- Amount charged
+- Swap timing
+- Revenue
+- Revenue per completed swap
+- Margin where defensible
+- Vehicle class
+- Rider segment
+- City
+- Fleet partner
+
+Analyze pricing changes and pilots. Only perform Difference-in-Differences if the treatment/control design and pre-trends are actually valid.
+
+Q6. NEW-RIDER RETENTION
+Define retention carefully using:
+- First completed swap
+- Subsequent completed swaps
+- Observation window
+- Censoring
+
+Analyze retention using:
+- Day 7
+- Day 30
+- Day 60
+- Day 90
+
+where the available data supports these windows.
+
+Investigate:
+- First swap experience
+- First queue wait
+- First event outcome
+- City
+- Station
+- Vehicle class
+- Signup channel
+- Plan type
+- Fleet partner
+- Pricing
+- Battery conditions
+- Support experience
+
+Do NOT claim a single causal driver of churn.
+
+==================================================
+3. DATASETS
+==================================================
+
+Use all relevant datasets:
+
+1. swap_events.csv.gz
+Approximately 3,877,013 rows.
+One row per swap attempt.
+
+2. station_hourly_status.csv.gz
+Approximately 1,487,712 rows.
+One row per station per hour.
+
+3. riders.csv
+Approximately 20,000 riders.
+
+4. batteries.csv
+Approximately 6,500 batteries.
+
+5. support_tickets.csv
+Approximately 44,000 tickets.
+
+6. stations.csv
+Approximately 152 stations.
+
+7. city_daily_context.csv
+Approximately 3,282 city-date records.
+
+8. fleet_partners.csv
+Approximately 12 partners.
+
+Respect the relationships documented in the Problem Statement:
+
+fleet_partners
+    ↓
+riders
+    ↓
+swap_events
+    ↓
+stations
+
+swap_events
+    ↓
+batteries
+
+riders
+    ↓
+support_tickets
+
+stations
+    ↓
+station_hourly_status
+
+city + date
+    ↓
+city_daily_context
+
+Validate every join and prevent row multiplication.
+
+==================================================
+4. PROJECT STRUCTURE
+==================================================
+
+Create a professional project structure:
+
+voltRelay-analytics/
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── notebooks/
+│   └── VoltRelay_Final_Analysis.ipynb
+│
+├── src/
+│   ├── data_loading.py
+│   ├── data_cleaning.py
+│   ├── feature_engineering.py
+│   ├── metrics.py
+│   ├── analysis.py
+│   └── visualization.py
+│
+├── outputs/
+│   ├── figures/
+│   ├── tables/
+│   └── exports/
+│
+├── report/
+│   └── final_report.md
+│
+├── presentation/
+│   └── final_presentation_outline.md
+│
+├── README.md
+├── requirements.txt
+└── config.py
+
+If the AI coding environment has limitations, adapt the structure while preserving the same logical separation.
+
+==================================================
+5. STEP 1 — DATA INGESTION
+==================================================
+
+Load all eight datasets.
+
+Requirements:
+- Use Pandas.
+- Handle .csv.gz efficiently.
+- Preserve IDs as strings where appropriate.
+- Parse timestamps correctly.
+- Inspect memory usage.
+- Display shape, columns, dtypes and sample records.
+- Compare actual row counts with the Problem Statement.
+- Do not force expected row counts if the actual files differ.
+- Identify date ranges.
+- Check whether every expected dataset exists.
+
+Create a dataset inventory table containing:
+- Dataset
+- Rows
+- Columns
+- Memory
+- Date range
+- Primary key
+- Important foreign keys
+- Notes
+
+==================================================
+6. STEP 2 — DATA QUALITY AUDIT
+==================================================
+
+Perform a comprehensive audit BEFORE cleaning.
+
+Check:
+- Missing values
+- Duplicate rows
+- Primary-key uniqueness
+- Foreign-key integrity
+- Data types
+- Invalid dates
+- Numeric ranges
+- Negative values
+- Impossible values
+- Category inconsistencies
+- Outliers
+- Cardinality
+- Distribution of categorical columns
+- Referential integrity
+
+Explicitly investigate all known issues mentioned in the Problem Statement.
+
+Known issues include:
+
+1. Approximately 94% complete events.
+2. Non-complete events include:
+   - failed_no_charged_battery
+   - abandoned_queue
+   - cancelled_rider
+   - system_error
+
+3. Missing station telemetry must NOT be interpreted as zero.
+
+4. Firmware v3.2.0 events between approximately March 10, 2025 and April 14, 2025 have timestamps approximately 5h30 earlier than expected.
+Correct this for hour-of-day analysis.
+
+5. Rider home_city has inconsistent spellings.
+
+6. Near-duplicate swap events exist under poor connectivity/offline_batch.
+
+7. km_since_last_swap contains negative/implausibly large values.
+
+8. SOC/SOH can be slightly above 100.
+
+9. CSAT missingness is not necessarily random.
+
+10. Support categories are agent-assigned and imperfect.
+
+11. STN-TST test stations contain small zero-value transactions at unusual hours.
+
+Do not automatically delete these records.
+Investigate, flag, document, and only exclude when analytically justified.
+
+Create:
+outputs/tables/data_quality_summary.csv
+outputs/tables/key_integrity_summary.csv
+
+==================================================
+7. STEP 3 — REPRODUCIBLE CLEANING
+==================================================
+
+Create a reusable cleaning pipeline.
+
+Requirements:
+- Never modify raw data.
+- Preserve original values when correcting data.
+- Create flags for corrected/suspicious records.
+- Standardize city names while preserving original city.
+- Correct the known firmware timestamp issue.
+- Create:
+  original_event_ts
+  corrected_event_ts
+  timestamp_corrected_flag
+
+Investigate near duplicates using:
+- rider
+- station
+- battery IDs
+- timestamps
+- event characteristics
+- connectivity mode
+
+Do not blindly drop duplicates.
+
+Create validity flags for:
+- km_since_last_swap
+- SOC
+- SOH
+- financial fields
+- timestamps
+
+Missing telemetry remains missing.
+
+Preserve CSAT missingness.
+
+Keep support-ticket category as an imperfect structured label.
+
+Create a cleaning log containing:
+- Issue
+- Detection method
+- Records affected
+- Treatment
+- Reason
+- Analytical impact
+
+==================================================
+8. STEP 4 — ANALYTICAL DATA MODEL
+==================================================
+
+Create a master analytical swap dataset.
+
+Start from swap_events and carefully join:
+- riders
+- stations
+- fleet_partners
+- city_daily_context
+- battery information where appropriate
+
+Do NOT join station_hourly_status directly in a way that multiplies rows.
+
+Validate:
+- Row count before join
+- Row count after join
+- Unmatched keys
+- Duplicate keys
+- Null rates introduced
+- One-to-one/many-to-one assumptions
+
+Save:
+
+data/processed/master_swap_events.parquet
+
+Create a join validation report.
+
+==================================================
+9. STEP 5 — FEATURE ENGINEERING
+==================================================
+
+Create reusable features.
+
+TIME:
+- event_date
+- year
+- month
+- quarter
+- week
+- day_of_week
+- hour
+- weekend_flag
+- season if supported
+- peak/off-peak
+- pricing period
+
+OUTCOME:
+- completed_flag
+- failed_flag
+- abandoned_flag
+- cancelled_flag
+- system_error_flag
+
+CUSTOMER:
+- rider tenure
+- new rider flag
+- signup channel
+- plan
+- vehicle class
+- partner
+
+BATTERY:
+- SOH
+- SOC
+- battery age
+- range indicators
+- battery validity flags
+
+STATION:
+- station age
+- capacity
+- city
+- zone
+- location type
+- host type
+- charger generation
+- expansion wave
+
+PRICING:
+- tariff
+- listed price
+- discount
+- amount charged
+- effective price
+- revenue per completed swap
+
+SERVICE:
+- queue wait
+- queue wait bins
+- charged battery availability
+- station outage
+- telemetry availability
+
+==================================================
+10. STEP 6 — KPI ENGINE
+==================================================
+
+Create reusable KPI functions.
+
+Network KPIs:
+- swap attempts
+- completed swaps
+- completion rate
+- failure rate
+- abandonment rate
+- cancellation rate
+- system-error rate
+- revenue
+- revenue per completed swap
+- contribution margin per swap where defensible
+
+Service KPIs:
+- average queue wait
+- median queue wait
+- P90 queue wait
+- failure rate
+- abandonment rate
+- charged-battery availability
+- outage rate
+
+Station KPIs:
+- attempts
+- completed swaps
+- completion rate
+- failure rate
+- queue metrics
+- revenue
+- utilization
+- outage indicators
+- complaints
+
+Battery KPIs:
+- average SOH
+- battery age
+- range
+- swap frequency
+- energy
+- supplier
+- lot
+- retirement
+
+Retention KPIs:
+- Day 7
+- Day 30
+- Day 60
+- Day 90 retention
+
+All KPI calculations must be reusable rather than hard-coded.
+
+==================================================
+11. STEP 7 — ANALYSIS
+==================================================
+
+Perform complete analysis for all six business questions.
+
+Use:
+- Time-series analysis
+- Cohort analysis
+- Segmentation
+- Distribution analysis
+- Correlation where appropriate
+- Cross-tabulation
+- Statistical tests
+- Regression only where justified
+
+Possible statistical methods:
+- Chi-square
+- t-test
+- Mann-Whitney U
+- ANOVA
+- Kruskal-Wallis
+- Logistic regression
+- Survival analysis
+- Difference-in-Differences
+
+Select methods based on the data and assumptions.
+
+Do not use statistics merely to make the project look advanced.
+
+==================================================
+12. VISUALIZATION
+==================================================
+
+Create professional business charts.
+
+Use only charts that answer analytical questions.
+
+Potential charts:
+- Monthly trend lines
+- City comparison
+- Failure-rate heatmaps
+- Hour-of-day analysis
+- Boxplots
+- Distribution plots
+- Station scatter plots
+- Battery cohort comparisons
+- Supplier comparisons
+- Pricing before/after trends
+- Partner economics
+- Retention curves
+- Cohort heatmaps
+- Correlation plots where meaningful
+
+Every chart must have:
+- Clear title
+- Axis labels
+- Units
+- Appropriate aggregation
+- Business interpretation
+
+Avoid chart overload.
+
+Save important figures to:
+
+outputs/figures/
+
+==================================================
+13. SERVICE FAILURE ROOT-CAUSE ANALYSIS
+==================================================
+
+For service failures, investigate:
+
+Outcome
+↓
+Time pattern
+↓
+Station pattern
+↓
+Capacity
+↓
+Charged battery availability
+↓
+Queue wait
+↓
+Outages
+↓
+Connectivity
+↓
+Vehicle class
+↓
+Battery condition
+
+Determine which factors show the strongest evidence of association.
+
+Do not call these causes unless causality is supported.
+
+==================================================
+14. STATION ANALYSIS
+==================================================
+
+Build a station-level analytical table containing:
+
+- station_id
+- city
+- zone
+- location_type
+- host_type
+- commissioning date
+- expansion wave
+- charger generation
+- capacity
+- attempts
+- completed swaps
+- completion rate
+- failure rate
+- queue metrics
+- revenue
+- outage indicators
+- complaints
+
+Analyze station differences using transparent metrics.
+
+Do not produce arbitrary "best/worst station" rankings without a clearly defined business metric and interpretation.
+
+==================================================
+15. BATTERY / EQUIPMENT ANALYSIS
+==================================================
+
+Investigate:
+- Supplier
+- Manufacturing lot
+- Pack type
+- SOH
+- Battery age
+- Delivered range
+- Swap frequency
+- Energy
+- BMS firmware
+- Retirement
+- Charger generation
+
+Look for:
+- unusual cohorts
+- aging patterns
+- supplier differences
+- lot-level patterns
+- equipment-related failure associations
+
+Check sample sizes before interpreting subgroup results.
+
+==================================================
+16. PRICING ANALYSIS
+==================================================
+
+Analyze:
+- tariff
+- base price
+- discounts
+- charged amount
+- peak/off-peak behavior
+- revenue
+- revenue per completed swap
+- margin where available
+- rider segment
+- city
+- vehicle class
+
+If there was a pricing pilot:
+
+FIRST determine:
+- treatment group
+- control group
+- intervention date
+- pre-period
+- post-period
+
+Then check pre-trends.
+
+Only if the design is defensible, perform Difference-in-Differences.
+
+Otherwise perform a descriptive before/after analysis and clearly state limitations.
+
+==================================================
+17. FLEET PARTNER ECONOMICS
+==================================================
+
+Analyze each fleet partner using:
+
+- partner
+- segment
+- vehicle class
+- riders
+- swaps
+- completed swaps
+- revenue
+- average revenue/swap
+- discounts
+- peak surcharge
+- payment terms
+- cities
+- energy
+- costs/margin where defensible
+
+Analyze contract amendments before/after.
+
+Do not assume:
+"highest revenue = best partner."
+
+Interpret partner economics using multiple relevant metrics.
+
+==================================================
+18. RETENTION ANALYSIS
+==================================================
+
+Define retention explicitly.
+
+Use:
+first completed swap
++
+subsequent completed swap
++
+valid observation window
+
+Handle right-censoring.
+
+Create:
+- Day 7 retention
+- Day 30 retention
+- Day 60 retention
+- Day 90 retention
+
+when enough observation time exists.
+
+Analyze retention against:
+- first queue wait
+- first event outcome
+- city
+- station
+- vehicle class
+- signup channel
+- plan
+- partner
+- pricing
+- battery conditions
+- support interaction
+
+Clearly separate:
+- observed association
+- possible explanation
+- confounding
+- unsupported causal claim
+
+==================================================
+19. RETENTION STATISTICAL MODEL
+==================================================
+
+If appropriate, build a statistical retention model.
+
+Possible methods:
+- Logistic regression
+- Survival analysis
+
+Potential predictors:
+- first queue wait
+- first swap outcome
+- vehicle class
+- city
+- signup channel
+- plan
+- partner
+- station
+- pricing
+- support
+
+Check:
+- missing data
+- multicollinearity
+- categorical encoding
+- class imbalance
+- observation-window bias
+- model diagnostics
+
+Report:
+- effect estimates
+- confidence intervals
+- significance where appropriate
+- model limitations
+
+Interpret as explanatory association, NOT automatic causality.
+
+==================================================
+20. OPTIONAL SUPPORT-TICKET NLP
+==================================================
+
+If support ticket text is useful, perform an optional NLP analysis.
+
+Clean:
+- English
+- Hinglish
+- spelling variation
+- common operational terms
+
+Analyze:
+- frequent terms
+- n-grams
+- TF-IDF
+- themes
+- topic clusters if justified
+- disagreement between text and structured category
+
+Compare themes by:
+- city
+- station
+- vehicle
+- issue type
+- resolution
+- CSAT
+
+Do not overstate NLP findings because support categories are imperfect and text quality varies.
+
+==================================================
+21. ANOMALY ANALYSIS
+==================================================
+
+Investigate anomalies involving:
+- stations
+- batteries
+- lots
+- suppliers
+- firmware
+- time periods
+- connectivity
+- telemetry
+- failures
+- queues
+- transactions
+
+For every meaningful anomaly document:
+
+WHAT happened?
+WHERE?
+WHEN?
+HOW LARGE?
+WHAT evidence supports it?
+WHAT alternative explanations exist?
+WHAT business action could investigate it?
+
+Create:
+outputs/tables/anomalies.csv
+
+==================================================
+22. ROOT-CAUSE SYNTHESIS
+==================================================
+
+Create an evidence matrix.
+
+For every major business problem:
+
+Problem
+↓
+Observed trend
+↓
+Associated factors
+↓
+Supporting evidence
+↓
+Statistical evidence
+↓
+Alternative explanations
+↓
+Evidence strength
+↓
+Business implication
+
+Classify evidence as:
+- Strong association
+- Moderate association
+- Weak association
+- Descriptive pattern
+- Insufficient evidence
+
+Never convert association into causality.
+
+==================================================
+23. RECOMMENDATIONS
+==================================================
+
+Create evidence-based recommendations.
+
+Each recommendation must contain:
+
+1. Business finding
+2. Evidence
+3. Recommended action
+4. Expected business relevance
+5. Metric to monitor
+6. Implementation consideration
+7. Risk/limitation
+
+Possible areas:
+- Station operations
+- Battery management
+- Equipment
+- Capacity planning
+- Pricing
+- Fleet contracts
+- Rider onboarding
+- Customer support
+- Retention
+
+Do NOT invent financial benefits.
+
+Do NOT create arbitrary priority scores.
+
+The recommendation must directly connect to an analytical finding.
+
+==================================================
+24. FINAL COLAB NOTEBOOK
+==================================================
+
+Create ONE professional Google Colab-compatible notebook.
+
+Recommended structure:
+
+1. Title
+2. Executive Summary
+3. Business Problem
+4. Objectives
+5. Dataset Overview
+6. Data Loading
+7. Data Quality Audit
+8. Cleaning
+9. Data Model
+10. Feature Engineering
+11. KPI Framework
+12. Q1 Network Performance
+13. Q2 Service Failures
+14. Q3 Station & Geography
+15. Q4 Battery & Equipment
+16. Q5 Pricing & Partner Economics
+17. Q6 Rider Retention
+18. Statistical Analysis
+19. Optional NLP
+20. Anomaly Analysis
+21. Root-Cause Synthesis
+22. Key Findings
+23. Recommendations
+24. Limitations
+25. Conclusion
+
+The notebook must:
+- Run top-to-bottom
+- Have no hidden state
+- Have no undefined variables
+- Use relative/configurable paths
+- Work in Google Colab
+- Avoid unnecessary memory duplication
+- Display important results clearly
+- Explain methodology
+- Include interpretations after major analyses
+
+==================================================
+25. FINAL REPORT
+==================================================
+
+Create a professional business report.
+
+Sections:
+
+Executive Summary
+Business Problem
+Analytical Objectives
+Data & Methodology
+Data Quality
+Network Performance
+Service Failures
+Station & Geographic Analysis
+Battery & Equipment Analysis
+Pricing & Partner Economics
+Retention Analysis
+Root-Cause Synthesis
+Key Findings
+Recommendations
+Limitations
+Conclusion
+
+Only include the strongest visuals.
+
+Every major finding must be backed by evidence.
+
+==================================================
+26. THREE-MINUTE PRESENTATION
+==================================================
+
+Create a 5–7 slide presentation outline.
+
+Suggested structure:
+
+Slide 1 — Business Problem
+Slide 2 — Analytical Approach
+Slide 3 — Network Performance
+Slide 4 — Major Operational Drivers
+Slide 5 — Customer/Retention Findings
+Slide 6 — Business Recommendations
+Slide 7 — Final Takeaways
+
+For each slide provide:
+- Title
+- Main message
+- Recommended visual
+- 2–4 bullet points
+- Speaker notes
+- Approximate speaking time
+
+The story should be:
+
+Business problem
+→
+What we analyzed
+→
+What the data shows
+→
+Why it matters
+→
+What should be investigated/actioned
+
+==================================================
+27. README
+==================================================
+
+Create a professional README containing:
+
+- Project overview
+- Business problem
+- Dataset description
+- Project structure
+- Installation
+- How to run
+- Google Colab instructions
+- Analytical methodology
+- Main outputs
+- Limitations
+- Reproducibility notes
+
+==================================================
+28. FINAL QUALITY AUDIT
+==================================================
+
+Before declaring the project complete, perform a strict hackathon-evaluator audit.
+
+Check:
+
+DATA:
+- All datasets loaded
+- Correct types
+- Quality issues documented
+- Raw data preserved
+- Cleaning reproducible
+
+JOINS:
+- No row multiplication
+- Keys validated
+- Unmatched records documented
+
+ANALYSIS:
+- All six official questions answered
+- KPI definitions correct
+- Aggregations correct
+- Statistical tests appropriate
+- Retention censoring handled
+- Pricing pilot design validated before DiD
+
+BUSINESS:
+- Findings are evidence-based
+- Recommendations connect to findings
+- No invented financial impact
+- No unsupported causal claims
+
+VISUALIZATION:
+- Charts readable
+- Units shown
+- Titles meaningful
+- No unnecessary chart overload
+
+NOTEBOOK:
+- Runs top-to-bottom
+- Google Colab compatible
+- No hidden dependencies
+- No undefined variables
+- Reproducible
+
+REPORT:
+- Clear business narrative
+- Strongest evidence highlighted
+- Limitations included
+
+PRESENTATION:
+- Fits approximately 3 minutes
+- Business story is clear
+- Only validated findings included
+
+==================================================
+29. FINAL AUTHENTICITY / QUALITY PASS
+==================================================
+
+Perform a final human-quality review.
+
+Remove:
+- Generic AI-generated wording
+- Repetitive explanations
+- Unsupported claims
+- Artificially complex techniques
+- Excessive charts
+- Generic recommendations
+- Fake precision
+- Unnecessary jargon
+
+Make the final project:
+- Precise
+- Analytical
+- Business-focused
+- Evidence-driven
+- Professional
+- Concise
+- Defensible
+
+Every conclusion should be traceable back to:
+DATA → CALCULATION → VISUAL/STATISTICAL EVIDENCE → FINDING → BUSINESS IMPLICATION
+
+==================================================
+30. FINAL OUTPUTS
+==================================================
+
+At the end, produce:
+
+1. Complete project folder
+2. Google Colab notebook
+3. Cleaned/processed datasets where appropriate
+4. Python source files
+5. KPI tables
+6. Analysis tables
+7. Visualization files
+8. Final report
+9. Presentation outline
+10. README
+11. Data-quality report
+12. Join-validation report
+13. Anomaly report
+14. Evidence matrix
+15. Final recommendation table
+
+Also provide a FINAL SUMMARY containing:
+
+A. Dataset summary
+B. Data-quality issues discovered
+C. Cleaning decisions
+D. Six-question analytical findings
+E. Statistical findings
+F. Most important business insights
+G. Recommendations
+H. Limitations
+I. Files created
+J. How to run the project
+K. What remains to be manually reviewed before submission
+
+CRITICAL RULE:
+
+DO NOT fabricate the final findings before analyzing the actual dataset.
+
+First inspect and calculate.
+Then visualize.
+Then validate.
+Then interpret.
+Then recommend.
+
+If a finding is uncertain, explicitly label it as uncertain.
+
+Start by inspecting the provided Problem Statement and all available datasets, then build the project systematically from ingestion through final submission.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-09-27T16:43:02+05:30.
+</ADDITIONAL_METADATA>

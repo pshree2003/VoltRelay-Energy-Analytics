@@ -1,0 +1,61 @@
+=== PROMPT LINE 0 ===
+<USER_REQUEST>
+You are the lead Data Analyst, Data Scientist, and Python Engineer for this project.
+
+We are building an end-to-end analytical project for the VoltRelay Energy battery-swapping network based on the provided Problem Statement and datasets.
+
+IMPORTANT:
+- This is primarily a Data Analytics / Business Intelligence project.
+- Do NOT assume this is a generic ML prediction problem.
+- There is no target/label column.
+- Do not invent findings.
+- Do not invent business conclusions before analyzing the data.
+- All findings must be calculated from the actual datasets.
+- Clearly distinguish correlation/association from causation.
+- Preserve raw data and create processed datasets separately.
+- The final notebook must run from top to bottom without errors.
+
+The six core analytical questions are:
+
+1. Network Performance Over Time
+2. Service Failures and Customer Experience
+3. Station and Geographic Patterns
+4. Battery and Equipment Performance
+5. Pricing and Partner Economics
+6. Root Cause Analysis of Rider Retention
+
+The project must eventually produce:
+1. Complete Google Colab notebook
+2. Clean analytical datasets
+3. Visualizations
+4. Statistical analysis where appropriate
+5. Key findings
+6. Business recommendations
+7. Final analysis report
+8. Three-minute presentation/video script
+9. Reproducible project structure
+
+First:
+- Create the project structure.
+- Identify all available datasets.
+- Do not perform major analysis yet.
+- Create a README explaining the project.
+- Create a requirements/environment specification.
+- Create configuration/constants files where useful.
+- Create folders for raw data, processed data, notebooks, source code, figures, tables, reports and presentation.
+
+Do not fabricate dataset contents.
+
+At the end, show:
+- project structure
+- files created
+- dependencies
+- next recommended step
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-09-27T16:13:43+05:30.
+</ADDITIONAL_METADATA>
+<USER_SETTINGS_CHANGE>
+The user changed setting `Model Selection` from None to GPT-OSS 120B (Medium). No need to comment on this change if the user doesn't ask about it. If reporting what model you are, please use a human readable name instead of the exact string.
+</USER_SETTINGS_CHANGE>
+=== PROMPT LINE 44 ===

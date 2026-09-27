@@ -1,0 +1,9 @@
+dataset,rows_actual,rows_expected,rows_diff,columns,duplicate_rows,pk_columns,pk_unique,pk_duplicates,total_null_cells,total_null_pct
+swap_events,3877013,3877013,0,22,0,event_id,True,0,1037944,1.22
+station_hourly_status,1487712,1487712,0,14,0,station_id+hour_start,True,0,896880,4.31
+riders,20000,20000,0,12,0,rider_id,True,0,12837,5.35
+batteries,6500,6500,0,13,0,battery_id,True,0,10124,11.98
+support_tickets,44000,44000,0,12,0,ticket_id,True,0,50445,9.55
+stations,152,152,0,22,0,station_id,True,0,293,8.76
+city_daily_context,3282,3282,0,12,0,city+date,True,0,3172,8.05
+fleet_partners,12,12,0,12,0,partner_id,True,0,22,15.28
