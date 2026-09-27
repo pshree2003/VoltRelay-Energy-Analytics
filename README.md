@@ -1,23 +1,49 @@
 # VoltRelay Energy Battery‑Swapping Network – Analytical Project
 
 ## Overview
-This repository contains an **end‑to‑end data‑analytics** project for the **VoltRelay Energy** battery‑swapping network.  The goal is to explore the operational data, answer a set of core business‑driven analytical questions, and produce actionable insights and recommendations.
+This repository contains an **end‑to‑end data‑analytics** project for the **VoltRelay Energy** battery‑swapping network. The goal is to explore operational data to optimize network performance, improve customer experience, and drive data-informed business decisions.
 
-### Core analytical questions
-1. **Network Performance Over Time** – How does the network evolve (transactions, utilisation, availability) month‑by‑month?
-2. **Service Failures & Customer Experience** – Frequency, types and impact of failures on riders.
-3. **Station & Geographic Patterns** – Spatial distribution of usage, demand hotspots and under‑served areas.
-4. **Battery & Equipment Performance** – Degradation, churn and maintenance metrics.
-5. **Pricing & Partner Economics** – Revenue, partner payouts and price‑elasticity signals.
-6. **Root‑Cause Analysis of Rider Retention** – Factors associated with churn vs. repeat usage.
+### Core Analytical Objectives
+1. **Network Performance Over Time:** Analyzing transaction volume, station utilization, and service availability trends.
+2. **Customer Experience & Failures:** Investigating frequency, types, and impact of service failures on rider behavior.
+3. **Station Geospatial Analysis:** Identifying high-demand hubs and under-served geographic regions.
+4. **Equipment Health:** Monitoring battery degradation and maintenance requirements.
+5. **Operational Economics:** Analyzing revenue patterns and partner-specific metrics.
+6. **Rider Retention:** Modeling factors influencing churn and identifying drivers of repeat usage.
 
-The notebook will answer each question with clean datasets, visualisations, statistical summaries and business‑focused take‑aways.
+## Methodology
+The project follows a structured data pipeline:
+- **Data Ingestion:** Cleaning and standardizing disparate sources (swap events, station status, ticket logs).
+- **Quality Audit:** Identifying missing values, outliers, and inconsistencies.
+- **Modeling & Synthesis:** Deriving KPIs to support executive-level reporting.
+- **Visualization:** Developing dashboards for station utilization and service efficiency.
 
-## Repository structure
+## Repository Structure
 ```
 voltrelay-analytics/
-├─ data/                     # top‑level data folder (ignored by git)
-│   ├─ raw/                  # original CSV/JSON files as provided
+├─ config/                   # Configuration constants
+├─ data/                     # Data source repository (raw & processed)
+├─ notebooks/                # Jupyter notebooks for exploratory analysis
+├─ reports/                  # Data quality reports and cleaning logs
+├─ src/                      # Source code for pipeline automation
+│  ├─ data_ingestion.py      # Automated ingestion logic
+│  ├─ data_cleaning.py       # Data normalization & transformation
+│  ├─ data_quality_audit.py  # Auditing framework
+│  └─ data_modeling.py       # Analytical modeling utilities
+└─ README.md                 # Project documentation
+```
+
+## Setup & Usage
+1. **Install Dependencies:**
+   `pip install -r requirements.txt`
+2. **Data Processing:**
+   Run the ingestion and cleaning scripts within the `src/` directory to prepare the datasets.
+3. **Analysis:**
+   Explore the `notebooks/` directory for detailed walkthroughs of the business questions.
+
+---
+*VoltRelay Energy Analytics © 2026*
+
 │   └─ processed/            # derived, clean datasets (do not edit raw data)
 ├─ notebooks/                # Jupyter/Colab notebooks
 │   └─ analysis.ipynb        # main end‑to‑end analysis notebook
