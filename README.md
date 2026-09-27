@@ -34,16 +34,76 @@ voltrelay-analytics/
 ```
 
 ## Setup & Usage
-1. **Install Dependencies:**
-   `pip install -r requirements.txt`
-2. **Data Processing:**
-   Run the ingestion and cleaning scripts within the `src/` directory to prepare the datasets.
-3. **Analysis:**
-   Explore the `notebooks/` directory for detailed walkthroughs of the business questions.
+
+### 1. Environment Setup
+To get started with the project, follow these steps:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/pshree2003/VoltRelay-Energy-Analytics.git
+    cd VoltRelay-Energy-Analytics
+    ```
+2.  **Create a virtual environment (recommended):**
+    ```bash
+    python -m venv venv
+    ```
+3.  **Activate the virtual environment:**
+    *   **On Windows:**
+        ```bash
+        .\venv\Scripts\activate
+        ```
+    *   **On macOS/Linux:**
+        ```bash
+        source venv/bin/activate
+        ```
+4.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+### 2. Configuration
+All project-specific configurations, such as file paths and column names, are managed in the `config/constants.py` file. Review and adjust these settings as needed for your environment or specific analysis requirements.
+
+### 3. Workflow
+The typical workflow for this project involves:
+
+1.  **Data Ingestion:** Run the `src/data_ingestion.py` script to load raw data into the system.
+    ```bash
+    python src/data_ingestion.py
+    ```
+2.  **Data Cleaning:** Execute the `src/data_cleaning.py` script to preprocess and clean the ingested data.
+    ```bash
+    python src/data_cleaning.py
+    ```
+3.  **Data Quality Audit:** Use `src/data_quality_audit.py` to perform checks and generate quality reports.
+    ```bash
+    python src/data_quality_audit.py
+    ```
+4.  **Data Modeling:** Run `src/data_modeling.py` to generate key analytical tables and features.
+    ```bash
+    python src/data_modeling.py
+    ```
+5.  **Exploratory Data Analysis (EDA):** Open and run the `notebooks/analysis.ipynb` Jupyter notebook to explore the data, answer the core analytical questions, and generate visualizations.
+    ```bash
+    jupyter notebook notebooks/analysis.ipynb
+    ```
+    (Ensure Jupyter is installed: `pip install jupyter`)
+
+### 4. Outputs
+Generated reports, summaries, and visualizations are saved in the `reports/`, `outputs/`, and `figures/` directories, respectively.
+
+## Contributing
+We welcome contributions to enhance this project! If you'd like to contribute, please follow these steps:
+
+1.  Fork the repository.
+2.  Create a new branch (`git checkout -b feature/your-feature-name`).
+3.  Make your changes and ensure they adhere to the project's coding standards.
+4.  Write clear commit messages.
+5.  Push your branch (`git push origin feature/your-feature-name`).
+6.  Open a Pull Request with a detailed description of your changes.
 
 ---
 *VoltRelay Energy Analytics © 2026*
-
 │   └─ processed/            # derived, clean datasets (do not edit raw data)
 ├─ notebooks/                # Jupyter/Colab notebooks
 │   └─ analysis.ipynb        # main end‑to‑end analysis notebook
